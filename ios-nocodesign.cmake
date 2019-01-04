@@ -1,5 +1,7 @@
 # Copyright (c) 2014-2016, Ruslan Baratov
 # All rights reserved.
+cmake_minimum_required(VERSION 3.1)
+set(IOS_DEPLOYMENT_SDK_VERSION "8.0")
 
 if(DEFINED POLLY_IOS_NOCODESIGN_CMAKE_)
   return()

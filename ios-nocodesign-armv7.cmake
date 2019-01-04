@@ -11,7 +11,11 @@ include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_clear_environment_variables.c
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_init.cmake")
 
-set(IOS_SDK_VERSION 8.1)
+set(IOS_SDK_VERSION 12.1)
+set(IOS_DEPLOYMENT_SDK_VERSION 6.0)
+#SET(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+#set(CMAKE_CXX_FLAGS "-stdlib=libc++")
+
 set(POLLY_XCODE_COMPILER "clang")
 polly_init(
     "iOS ${IOS_SDK_VERSION} Universal (iphoneos + iphonesimulator) / \
@@ -32,7 +36,7 @@ set(CMAKE_MACOSX_BUNDLE YES)
 # Verify XCODE_XCCONFIG_FILE
 set(
     _polly_xcode_xcconfig_file_path
-    "${CMAKE_CURRENT_LIST_DIR}/scripts/NoCodeSign.xcconfig"
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/CodeSign.xcconfig"
 )
 if(NOT EXISTS "$ENV{XCODE_XCCONFIG_FILE}")
   polly_fatal_error(
@@ -59,9 +63,12 @@ else()
   endif()
 endif()
 
+set(CMAKE_OSX_ARCHITECTURES armv7)
+
 set(IPHONEOS_ARCHS armv7)
 set(IPHONESIMULATOR_ARCHS "")
 
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx11.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/library/std/libcxx.cmake")

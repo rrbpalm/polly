@@ -1,5 +1,6 @@
 # Copyright (c) 2016, Ruslan Baratov
 # All rights reserved.
+set(IOS_SDK_VERSION 12.1)
 set(IOS_DEPLOYMENT_SDK_VERSION 8.0)
 
 if(DEFINED POLLY_IOS_CMAKE_)
@@ -31,19 +32,18 @@ set(CMAKE_MACOSX_BUNDLE YES)
 set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
 
 # 32 bits support was dropped from iPhoneSdk11.0
-if(IOS_SDK_VERSION VERSION_LESS "11.0")
-  set(IPHONEOS_ARCHS armv7;armv7s;arm64)
-  set(IPHONESIMULATOR_ARCHS i386;x86_64)
+if(TRUE)
+  set(IPHONEOS_ARCHS armv7)
+  #set(IPHONESIMULATOR_ARCHS i386;x86_64)
 else()
   polly_status_debug("iPhone11.0+ SDK detected, forcing 64 bits builds.")
   set(IPHONEOS_ARCHS arm64)
-  #set(IPHONESIMULATOR_ARCHS x86_64)
-  set(IPHONESIMULATOR_ARCHS)
+  set(IPHONESIMULATOR_ARCHS x86_64)
 endif()
 
-if(IPHONEOS_ARCHS MATCHES "arm64")
+if(IOS_ARCHS MATCHES "arm64")
   set(AARCH64 1)
-elseif(IPHONEOS_ARCHS MATCHES "armv")
+elseif(IOS_ARCHS MATCHES "armv")
   set(ARM 1)
 endif()
 

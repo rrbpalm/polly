@@ -61,7 +61,11 @@ else()
 endif()
 
 # 32 bits support was dropped from iPhoneSdk11.0
-if(IOS_SDK_VERSION VERSION_LESS "11.0")
+if(TRUE)
+  set(IPHONEOS_ARCHS arm64)
+  set(IPHONESIMULATOR_ARCHS "")
+  set(IOS TRUE)
+elseif(IOS_SDK_VERSION VERSION_LESS "11.0")
   set(IPHONEOS_ARCHS armv7;armv7s;arm64)
   set(IPHONESIMULATOR_ARCHS i386;x86_64)
 else()

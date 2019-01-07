@@ -56,6 +56,6 @@ include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/function-sections.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/data-sections.cmake")
 
-if(NOT IOS_SDK_VERSION VERSION_LESS 10.0)
+if(NOT IOS_SDK_VERSION VERSION_LESS 6.0)
   include(polly_ios_development_team)
 endif()

@@ -36,7 +36,7 @@ set(CMAKE_MACOSX_BUNDLE YES)
 # Verify XCODE_XCCONFIG_FILE
 set(
     _polly_xcode_xcconfig_file_path
-    "${CMAKE_CURRENT_LIST_DIR}/scripts/CodeSign.xcconfig"
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/NoCodeSign.xcconfig"
 )
 if(NOT EXISTS "$ENV{XCODE_XCCONFIG_FILE}")
   polly_fatal_error(

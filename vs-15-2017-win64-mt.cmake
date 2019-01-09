@@ -17,5 +17,3 @@ polly_init(
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_common.cmake")
 
 include("${CMAKE_CURRENT_LIST_DIR}/flags/vs-mt.cmake")
-
-include("${CMAKE_CURRENT_LIST_DIR}/flags/vs-nologo.cmake")

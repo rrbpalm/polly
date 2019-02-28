@@ -1,30 +1,29 @@
-# Copyright (c) 2014-2016, Ruslan Baratov
-# Copyright (c) 2016, David Hirvonen
+# Copyright (c) 2015, Ruslan Baratov
 # All rights reserved.
 
-if(DEFINED POLLY_IOS_NOCODESIGN_HID_SECTIONS_CMAKE)
+if(DEFINED POLLY_IOS_NOCODESIGN_ARMV7_HID_SECTIONS_CMAKE)
   return()
 else()
-  set(POLLY_IOS_NOCODESIGN_HID_SECTIONS_CMAKE 1)
+  set(POLLY_IOS_NOCODESIGN_ARMV7_HID_SECTIONS_CMAKE 1)
 endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_clear_environment_variables.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_module_path.cmake")
-include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_init.cmake")
+include(polly_clear_environment_variables)
+include(polly_init)
 
-set(IOS_DEPLOYMENT_SDK_VERSION "8.0")
+set(IOS_DEPLOYMENT_SDK_VERSION 8.0)
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone-default-sdk.cmake") # -> IOS_SDK_VERSION
+
 set(POLLY_XCODE_COMPILER "clang")
 polly_init(
-    "iOS ${IOS_SDK_VERSION} Universal (iphoneos + iphonesimulator) / \
+    "iOS ${IOS_SDK_VERSION} armv7 (iphoneos) / \
 ${POLLY_XCODE_COMPILER} / \
-No code sign / function-sections / data-sections / hidden visibility / \
-c++11 support"
+No code sign / \
+c++14 support / hidden / data-sections / function-sections"
     "Xcode"
 )
 
-include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_common.cmake")
-
+include(polly_common)
 include(polly_fatal_error)
 
 # Fix try_compile
@@ -61,9 +60,14 @@ else()
   endif()
 endif()
 
-set(IPHONEOS_ARCHS arm64)
+set(IPHONEOS_ARCHS armv7)
 set(IPHONESIMULATOR_ARCHS "")
 
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
-include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx11.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx14.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/library/std/libcxx.cmake")
+
+include("${CMAKE_CURRENT_LIST_DIR}/flags/function-sections.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/flags/data-sections.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/flags/hidden.cmake")

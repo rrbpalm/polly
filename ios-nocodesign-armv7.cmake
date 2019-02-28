@@ -13,12 +13,10 @@ include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_init.cmake")
 
 set(IOS_SDK_VERSION 12.1)
 set(IOS_DEPLOYMENT_SDK_VERSION 8.0)
-#SET(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
-#set(CMAKE_CXX_FLAGS "-stdlib=libc++")
 
 set(POLLY_XCODE_COMPILER "clang")
 polly_init(
-    "iOS ${IOS_SDK_VERSION} Universal (iphoneos armv7) / \
+    "iOS ${IOS_SDK_VERSION} armv7 (iphoneos) / \
 ${POLLY_XCODE_COMPILER} / \
 No code sign / \
 c++11 support"
@@ -62,8 +60,6 @@ else()
     )
   endif()
 endif()
-
-set(CMAKE_OSX_ARCHITECTURES armv7)
 
 set(IPHONEOS_ARCHS armv7)
 set(IPHONESIMULATOR_ARCHS "")

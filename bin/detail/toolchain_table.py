@@ -920,6 +920,7 @@ if os.name == 'posix':
       Toolchain('gcc-hid-fpic', 'Unix Makefiles'),
       Toolchain('gcc-gold', 'Unix Makefiles'),
       Toolchain('gcc-pic', 'Unix Makefiles'),
+      Toolchain('gcc-pic-cxx17', 'Unix Makefiles'),
       Toolchain('gcc-c11', 'Unix Makefiles'),
       Toolchain('gcc-cxx14-c11', 'Unix Makefiles'),
       Toolchain('gcc-cxx17-c11', 'Unix Makefiles'),

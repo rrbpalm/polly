@@ -279,9 +279,9 @@ if is_ninja:
 
 # Assuming gcc is on Ubuntu in CI
 if is_versioned_gcc:
-  subprocess.check_call(['apt-get', 'update'])
+  subprocess.check_call(['sudo', 'apt-get', 'update'])
   gcc_version = is_versioned_gcc.group(1)
-  subprocess.check_call(['apt-get', 'install', '-y', 'gcc-'+gcc_version, 'g++-'+gcc_version])
+  subprocess.check_call(['sudo', 'apt-get', 'install', '-y', 'gcc-'+gcc_version, 'g++-'+gcc_version])
 
 ### Unify directories
 

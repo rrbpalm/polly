@@ -884,6 +884,7 @@ if platform.system() == 'Darwin':
       Toolchain('osx-10-15-dep-10-10-cxx17', 'Xcode', osx_version='10.15'),
       Toolchain('osx-10-15-dep-10-12-cxx17', 'Xcode', osx_version='10.15'),
       Toolchain('osx-11-0', 'Xcode', osx_version='11.0'),
+      Toolchain('osx-11-0-arch-universal2', 'Xcode', osx_version='11.0'),
       Toolchain('osx-11-0-cxx17', 'Xcode', osx_version='11.0'),
       Toolchain('osx-11-0-dep-10-10-cxx17', 'Xcode', osx_version='11.0'),
       Toolchain('osx-11-1', 'Xcode', osx_version='11.1'),

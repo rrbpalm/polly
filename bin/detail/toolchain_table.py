@@ -501,6 +501,12 @@ if os.name == 'nt':
           vs_version='16'
       ),
       Toolchain(
+          'vs-16-2019-win64-sdk-10-0-18362-0-cxx17',
+          'Visual Studio 16 2019',
+          arch='amd64',
+          vs_version='16'
+      ),
+      Toolchain(
           'vs-16-2019-win64-llvm-cxx17',
           'Visual Studio 16 2019',
           toolset='clangcl',

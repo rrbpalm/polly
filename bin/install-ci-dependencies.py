@@ -287,7 +287,7 @@ if is_versioned_gcc:
 if platform.system() == 'Linux':
   subprocess.check_call(['sudo', 'add-apt-repository', 'ppa:kisak/kisak-mesa'])
   subprocess.check_call(['sudo', 'apt-get', 'update'])
-  subprocess.check_call(['sudo', 'apt-get', 'install', '-y', 'mesa', 'libglu1-mesa-dev', 'mesa-common-dev'])
+  subprocess.check_call(['sudo', 'apt-get', 'install', '-y', 'mesa', 'libglu1-mesa-dev', 'mesa-common-dev', 'libgl1-mesa-dev'])
 
 ### Unify directories
 

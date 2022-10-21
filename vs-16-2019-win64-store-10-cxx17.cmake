@@ -14,7 +14,7 @@ set(CMAKE_SYSTEM_VERSION 10.0)
 
 polly_init(
     "Visual Studio 16 2019 Win64 / ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION} / C++17"
-    "Visual Studio 16 2019 Win64"
+    "Visual Studio 16 2019"
 )
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_common.cmake")

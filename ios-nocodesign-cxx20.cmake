@@ -1,10 +1,10 @@
-# Copyright (c) 2016, Ruslan Baratov
+# Copyright (c) 2014-2016, Ruslan Baratov
 # All rights reserved.
 
-if(DEFINED POLLY_IOS_CXX20_CMAKE_)
+if(DEFINED POLLY_IOS_NOCODESIGN_CXX20_CMAKE_)
   return()
 else()
-  set(POLLY_IOS_CXX20_CMAKE_ 1)
+  set(POLLY_IOS_NOCODESIGN_CXX20_CMAKE_ 1)
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/utilities/polly_module_path.cmake")
@@ -15,10 +15,11 @@ include("${CMAKE_CURRENT_LIST_DIR}/os/iphone-default-sdk.cmake") # -> IOS_SDK_VE
 
 set(POLLY_XCODE_COMPILER "clang")
 polly_init(
-  "iOS ${IOS_SDK_VERSION} / Deployment ${IOS_DEPLOYMENT_SDK_VERSION} / Universal (iphoneos + iphonesimulator) / \
+    "iOS ${IOS_SDK_VERSION} / Deployment ${IOS_DEPLOYMENT_SDK_VERSION} / Universal (iphoneos + iphonesimulator) / \
 ${POLLY_XCODE_COMPILER} / \
+No code sign / \
 c++20 support"
-  "Xcode"
+    "Xcode"
 )
 
 include(polly_common)
@@ -27,7 +28,7 @@ include(polly_common)
 include(polly_ios_bundle_identifier)
 set(CMAKE_MACOSX_BUNDLE YES)
 
-set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
+include("${CMAKE_CURRENT_LIST_DIR}/flags/ios_nocodesign.cmake")
 
 # 32 bits support was dropped from iPhoneSdk11.0
 if(IOS_SDK_VERSION VERSION_LESS "11.0")
@@ -42,7 +43,3 @@ endif()
 include("${CMAKE_CURRENT_LIST_DIR}/compiler/xcode.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/os/iphone.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/flags/cxx20.cmake")
-
-if(NOT IOS_SDK_VERSION VERSION_LESS 10.0)
-  include(polly_ios_development_team)
-endif()

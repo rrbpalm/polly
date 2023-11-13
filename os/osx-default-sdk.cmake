@@ -13,10 +13,10 @@ endif()
 
 include(polly_status_debug)
 
-# polly_find_xcode_macos_defaults : 
-# fills 
+# polly_find_xcode_macos_defaults :
+# fills
 # * XCODE_DEVELOPER_ROOT
-# * MACOS_ROOT 
+# * MACOS_ROOT
 # * MACOS_SDK_ROOT
 macro (polly_find_xcode_macos_defaults)
   find_program(XCODE_SELECT_EXECUTABLE xcode-select)
@@ -27,7 +27,7 @@ macro (polly_find_xcode_macos_defaults)
     COMMAND
     ${XCODE_SELECT_EXECUTABLE}
     "-print-path"
-    OUTPUT_VARIABLE 
+    OUTPUT_VARIABLE
       XCODE_DEVELOPER_ROOT # /.../Xcode.app/Contents/Developer
     OUTPUT_STRIP_TRAILING_WHITESPACE
     RESULT_VARIABLE
@@ -74,21 +74,23 @@ endif()
 polly_status_debug("OSX_SDK_VERSION=${OSX_SDK_VERSION}")
 
 # Get minimum suggested Deployment SDK version
-execute_process(
-  COMMAND
-  "/usr/libexec/PlistBuddy"
-  -c "print 'DefaultProperties':DEPLOYMENT_TARGET_SUGGESTED_VALUES:0"
-  ${MACOS_SDK_ROOT}/SDKSettings.plist
-  RESULT_VARIABLE _POLLY_PROCESS_RESULT2
-  OUTPUT_VARIABLE OSX_DEPLOYMENT_SDK_VERSION
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  ERROR_STRIP_TRAILING_WHITESPACE
-)
-if(NOT "${_POLLY_PROCESS_RESULT2}" EQUAL "0")
-  polly_fatal_error("Could not read the minimum suggested Deployment macOS SDK version ().
-    The command
-    /usr/libexec/PlistBuddy -c \"print 'DefaultProperties':DEPLOYMENT_TARGET_SUGGESTED_VALUES:0\" ${MACOS_SDK_ROOT}/SDKSettings.plist
-    failed with the following status : ${_POLLY_PROCESS_RESULT2}
-    ")
+if(NOT OSX_DEPLOYMENT_SDK_VERSION)
+  execute_process(
+    COMMAND
+    "/usr/libexec/PlistBuddy"
+    -c "print 'DefaultProperties':DEPLOYMENT_TARGET_SUGGESTED_VALUES:0"
+    ${MACOS_SDK_ROOT}/SDKSettings.plist
+    RESULT_VARIABLE _POLLY_PROCESS_RESULT2
+    OUTPUT_VARIABLE OSX_DEPLOYMENT_SDK_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT "${_POLLY_PROCESS_RESULT2}" EQUAL "0")
+    polly_fatal_error("Could not read the minimum suggested Deployment macOS SDK version ().
+      The command
+      /usr/libexec/PlistBuddy -c \"print 'DefaultProperties':DEPLOYMENT_TARGET_SUGGESTED_VALUES:0\" ${MACOS_SDK_ROOT}/SDKSettings.plist
+      failed with the following status : ${_POLLY_PROCESS_RESULT2}
+      ")
+  endif()
 endif()
 polly_status_debug("OSX_DEPLOYMENT_SDK_VERSION=${OSX_DEPLOYMENT_SDK_VERSION}")

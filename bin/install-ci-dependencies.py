@@ -15,6 +15,7 @@ import sys
 import tarfile
 import tempfile
 import time
+import re
 import zipfile
 
 print(
@@ -152,6 +153,18 @@ def get_android_full_version_url():
     if platform.system() == 'Linux':
       return 'https://dl.google.com/android/repository/android-ndk-r17-linux-x86_64.zip', '1d886a64483adf3f3a3e3aaf7ac5084184006ac7',
 
+  if toolchain.startswith('android-ndk-r18b-'):
+    if platform.system() == 'Darwin':
+      return 'https://dl.google.com/android/repository/android-ndk-r18b-darwin-x86_64.zip', '98cb9909aa8c2dab32db188bbdc3ac6207e09440',
+    if platform.system() == 'Linux':
+      return 'https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip', '500679655da3a86aecf67007e8ab230ea9b4dd7b',
+
+  if toolchain.startswith('android-ndk-r21d-'):
+    if platform.system() == 'Darwin':
+      return 'https://dl.google.com/android/repository/android-ndk-r21d-darwin-x86_64.zip', 'ef06c9f9d7efd6f243eb3c05ac440562ae29ae12',
+    if platform.system() == 'Linux':
+      return 'https://dl.google.com/android/repository/android-ndk-r21d-linux-x86_64.zip', 'bcf4023eb8cb6976a4c7cff0a8a8f145f162bf4d',
+
   sys.exit('Android supported only for Linux and OSX')
 
 def get_android_url():
@@ -189,24 +202,25 @@ def get_android_url():
 def get_cmake_url():
   if platform.system() == 'Darwin':
     return (
-        'https://github.com/ruslo/CMake/releases/download/v3.13.4/cmake-3.13.4-Darwin-x86_64.tar.gz',
-        '21d089ac1c0e25e5683cdf4045f121990b24c123'
+        'https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-macos-universal.tar.gz',
+        '9b4bbe20018686918067cbd43d7fe98c9f79b7f9'
     )
   elif platform.system() == 'Linux':
     return (
-        'https://github.com/ruslo/CMake/releases/download/v3.13.4/cmake-3.13.4-Linux-x86_64.tar.gz',
-        '533919277c8148593d5bd13ed138c48ca7da28a4'
+        'https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-linux-x86_64.tar.gz',
+        'ce299e13b94259c1dbc8685769756caa827b8e5d'
     )
   elif platform.system() == 'Windows':
     return (
-        'https://github.com/ruslo/CMake/releases/download/v3.13.4/cmake-3.13.4-win64-x64.zip',
-        '62047fc089b164bf1d42e2feb5f6a2ca1244adc1'
+        'https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-windows-x86_64.zip',
+        '940f9496c83e42fd96cbcff1d53aeeaab14aa99e'
     )
   else:
     sys.exit('Unknown system: {}'.format(platform.system()))
 
 is_android = toolchain.startswith('android-')
 is_ninja = toolchain.startswith('ninja-')
+is_versioned_gcc = re.match('gcc-([0-9]*)[-\.]', toolchain)
 
 ### Prepare directories
 
@@ -257,11 +271,21 @@ if is_android:
 
 if is_ninja:
   ninja = FileToDownload(
-      'https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip',
-      'c68f192e85a12927443bbf535d27b4aa830e7b32',
+      'https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip',
+      'ccacdf88912e061e0b527f2e3c69ee10544d6f8a',
       ninja_archive_local,
       ci_dir
   )
+
+# Assuming gcc is on Ubuntu in CI
+if is_versioned_gcc:
+  subprocess.check_call(['sudo', 'apt-get', 'update'])
+  gcc_version = is_versioned_gcc.group(1)
+  subprocess.check_call(['sudo', 'apt-get', 'install', '-y', 'gcc-'+gcc_version, 'g++-'+gcc_version])
+
+# Install OpenGL support
+if platform.system() == 'Linux':
+  subprocess.check_call(['sudo', 'apt-get', 'install', '-y', 'libglu1-mesa-dev', 'mesa-common-dev', 'libgl1-mesa-dev'])
 
 ### Unify directories
 

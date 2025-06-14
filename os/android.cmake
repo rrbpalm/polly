@@ -58,6 +58,13 @@ macro(find_host_program)
  set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 endmacro()
 
+# android_get_compatible_target is removed from r22. However it is still used by opencv3.4
+if(NOT COMMAND android_get_compatible_target)
+  function(android_get_compatible_target out abi)
+    set(${out} "${abi}" PARENT_SCOPE)
+  endfunction()
+endif()
+
 # ANDROID macro is not defined by CMake 3.7+, however it is used by
 # some packages like OpenCV
 # (https://gitlab.kitware.com/cmake/cmake/merge_requests/62)
